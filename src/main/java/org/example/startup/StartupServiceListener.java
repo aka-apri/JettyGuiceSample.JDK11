@@ -25,6 +25,7 @@ public class StartupServiceListener extends GuiceServletContextListener implemen
         logger.info("Creating Injector");
 
         List<AbstractModule> modules = new ArrayList<>();
+
         try {
             modules.add((ServletModule) Class.forName(ApiModule.class.getName()).newInstance());
         } catch (ClassNotFoundException e) {
@@ -37,11 +38,7 @@ public class StartupServiceListener extends GuiceServletContextListener implemen
 
         var injector = Guice.createInjector(modules);
 
-        return GuiceBridgeFeature.InjectorStore
-                .register(
-                        StartupServiceListener.class,
-                        injector
-                );
+        return injector;
     }
 
     private List<Class<?>> loadClasses(List<String> modules){

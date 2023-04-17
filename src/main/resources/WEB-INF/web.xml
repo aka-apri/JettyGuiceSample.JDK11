@@ -24,26 +24,6 @@
 		<filter-class>com.google.inject.servlet.GuiceFilter</filter-class>
 		<async-supported>true</async-supported>
 	</filter>
-
-	<context-param>
-        <param-name>servletModules</param-name>
-        <param-value>
-            com.brightpattern.webcfg.tenantmgmt.server.utils.AdminBrandingModule;
-        	com.brightpattern.webcfg.server.log.MDCLoggingServletModule;
-        	com.brightpattern.webcfg.server.service.DefaultUserContextModule;
-        	com.brightpattern.webcfg.server.utils.context.DefaultContextExecutorServiceModule;
-        	com.brightpattern.webcfg.server.service.DefaultJpaUnitModule;
-        	com.brightpattern.webcfg.server.service.SvcServletModule;
-        	com.brightpattern.webcfg.tenantmgmt.server.service.TenantServicesModule; 
-        	com.brightpattern.webcfg.tenantmgmt.server.ws.RestAPIServicesModule;       
-        	com.brightpattern.webcfg.server.extapi.ExtApiModule;
-        	com.brightpattern.webcfg.server.utils.PortalServerNameModule;
-			com.brightpattern.webcfg.server.utils.monitor.InfluxDbModue;
-			com.brightpattern.webcfg.server.auth.AsIdServiceModule;
-			com.brightpattern.webcfg.tenantmgmt.server.auth.TenantAuthModule
-        </param-value>
-    </context-param>
-    
     
     <context-param>
     	<param-name>applicationName</param-name>

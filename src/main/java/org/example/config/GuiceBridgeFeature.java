@@ -5,6 +5,8 @@ import org.example.startup.StartupServiceListener;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.jvnet.hk2.guice.bridge.api.GuiceBridge;
 import org.jvnet.hk2.guice.bridge.api.GuiceIntoHK2Bridge;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -17,6 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Provider
 public class GuiceBridgeFeature implements Feature {
 
+    private final static Logger logger = LoggerFactory.getLogger(GuiceBridgeFeature.class);
+
     @Inject
     private ServiceLocator serviceLocator;
 
@@ -27,27 +31,12 @@ public class GuiceBridgeFeature implements Feature {
 
     @Override
     public boolean configure(FeatureContext context) {
-        Injector i = (Injector) servletContext.getAttribute(INJECTOR_NAME);
-        var injector = InjectorStore.getByClass(StartupServiceListener.class);
+        logger.debug("Initializing GuiceIntoHK2Bridge...");
+        Injector injector = (Injector) servletContext.getAttribute(INJECTOR_NAME);
         GuiceBridge.getGuiceBridge().initializeGuiceBridge(serviceLocator);
         GuiceIntoHK2Bridge guiceBridge = serviceLocator.getService(GuiceIntoHK2Bridge.class);
         guiceBridge.bridgeGuiceInjector(injector);
 
-
         return true;
-    }
-
-
-    public static class InjectorStore {
-        private final static ConcurrentHashMap<Class<?>, Injector> injectorHolder = new ConcurrentHashMap<>();
-
-        public static Injector register(Class<?> clazz, Injector injector) {
-            injectorHolder.put(clazz, injector);
-            return injector;
-        }
-
-        public static Injector getByClass(Class<?> clazz) {
-            return injectorHolder.get(clazz);
-        }
     }
 }
