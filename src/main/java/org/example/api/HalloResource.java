@@ -1,6 +1,7 @@
 package org.example.api;
 
 import org.example.aop.UserLoggedIn;
+import org.example.service.AopTool;
 import org.example.service.ApiService;
 
 import javax.inject.Inject;
@@ -14,9 +15,17 @@ public class HalloResource {
     @Inject
     private ApiService apiService;
 
+    @Inject
+    private AopTool aopTool;
+
     @GET
     @UserLoggedIn
     public Response hallo() {
-        return Response.ok("Message: " + apiService.getServiceDescription()).build();
+
+        return aopTool.userLoggedIn(() ->
+                aopTool.transactional(() ->
+                        Response.ok("Message: " + apiService.getServiceDescription()).build()
+                )
+        );
     }
 }
