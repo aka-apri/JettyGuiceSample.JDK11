@@ -7,8 +7,8 @@ import org.example.aop.Transactional;
 import org.example.aop.TransactionalInterceptor;
 import org.example.aop.UserLoggedIn;
 import org.example.aop.UserLoggedInInterceptor;
-import org.example.api.GuiceHalloService;
-import org.example.api.HalloResource;
+import org.example.api.GuiceHalloRestService;
+import org.example.api.HalloRestResource;
 import org.example.config.GuiceBridgeFeature;
 import org.example.service.AopTool;
 import org.example.service.AopToolImpl;
@@ -32,15 +32,15 @@ public class ApiModule extends ServletModule {
 
         bind(ApiService.class).to(ApiServiceImpl.class).in(Singleton.class);
         bind(AopTool.class).to(AopToolImpl.class).in(Singleton.class);
-        bind(HalloResource.class);
-        bind(GuiceHalloService.class);
+        bind(HalloRestResource.class);
+        bind(GuiceHalloRestService.class);
         serve("/api/*").with(initApiServletContainer());
     }
 
     private ServletContainer initApiServletContainer() {
         ResourceConfig config = new ResourceConfig();
         config.register(GuiceBridgeFeature.class);
-        config.register(HalloResource.class);
+        config.register(HalloRestResource.class);
         config.packages("org.example.api", "org.example.service");
         return new ServletContainer(config);
     }

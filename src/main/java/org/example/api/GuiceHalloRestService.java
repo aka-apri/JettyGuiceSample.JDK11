@@ -14,16 +14,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Singleton
-@Path("/api2")
+@Path("/hallo2")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class GuiceHalloService {
+public class GuiceHalloRestService {
 
     @Inject
     private ApiService apiService;
 
     @GET
-    @Path("/hallo")
     @UserLoggedIn
     public Response hallo() {
         return Response.ok("Guice Message: " + apiService.getServiceDescription()).build();

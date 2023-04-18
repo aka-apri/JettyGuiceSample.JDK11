@@ -1,6 +1,5 @@
 package org.example.api;
 
-import org.example.aop.UserLoggedIn;
 import org.example.service.AopTool;
 import org.example.service.ApiService;
 
@@ -10,20 +9,25 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 @Path("/hallo")
-public class HalloResource {
+public class HalloRestResource {
+
+    private final ApiService apiService;
+    private final AopTool aop;
 
     @Inject
-    private ApiService apiService;
-
-    @Inject
-    private AopTool aopTool;
+    public HalloRestResource(
+            ApiService apiService,
+            AopTool aop
+    ){
+        this.apiService = apiService;
+        this.aop = aop;
+    }
 
     @GET
-    @UserLoggedIn
     public Response hallo() {
 
-        return aopTool.userLoggedIn(() ->
-                aopTool.transactional(() ->
+        return aop.userLoggedIn(() ->
+                aop.transactional(() ->
                         Response.ok("Message: " + apiService.getServiceDescription()).build()
                 )
         );
